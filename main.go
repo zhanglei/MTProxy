@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/hex"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -17,6 +18,11 @@ func main() {
 	secret := getSecret()
 	if "" == secret {
 		log.Fatalln("Can't load secret file.")
+	}
+
+	secret_hex, err := hex.DecodeString(secret)
+	if nil != err {
+		log.Fatalln(secret_hex)
 	}
 
 	laddr, err := net.ResolveTCPAddr("tcp", ":8822")
@@ -40,7 +46,7 @@ func main() {
 			continue
 		}
 
-		client := NewClient(conn, network, []byte(secret))
+		client := NewClient(conn, network, secret_hex)
 		go client.Do()
 	}
 }
@@ -83,5 +89,5 @@ func getRandom() string {
 	for i := 0; i < 16; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
-	return string(result)
+	return hex.EncodeToString(result)
 }
