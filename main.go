@@ -39,7 +39,7 @@ func main() {
 
 	log.Println("[*]MTProxy is running...")
 	log.Println("[*]")
-	log.Println("[*] Secret %s", secret)
+	log.Printf("[*] Secret %s", secret)
 
 	for {
 		conn, err := listener.AcceptTCP()
