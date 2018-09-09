@@ -17,7 +17,7 @@ var (
 func main() {
 	secret := getSecret()
 	if "" == secret {
-		log.Fatalln("Can't load secret file.")
+		log.Fatalln("Can not load secret file.")
 	}
 
 	secret_hex, err := hex.DecodeString(secret)
@@ -37,7 +37,9 @@ func main() {
 
 	network := NewNetwork(defaultServers)
 
-	log.Printf("Server running on :8822")
+	log.Println("[*]MTProxy is running...")
+	log.Println("[*]")
+	log.Println("[*] Secret %s", secret)
 
 	for {
 		conn, err := listener.AcceptTCP()
@@ -82,7 +84,7 @@ func writeSecret() string {
 }
 
 func getRandom() string {
-	str := "0123456789abcdefghijklmnopqrstuvwxyz"
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-=_+[]{}|;:',<.>/?"
 	bytes := []byte(str)
 	result := []byte{}
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
